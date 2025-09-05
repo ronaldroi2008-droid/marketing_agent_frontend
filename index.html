@@ -411,33 +411,134 @@
       }, 3000);
     }
 
-    function simulateAPIResponse(goal) {
-      // This is a simulation of API responses for demonstration
-      const responses = {
-        'coffee shop': "☕ Grand Opening! ☕\n\nWe're thrilled to announce the opening of Brewtiful Day Café this Saturday at 9 AM! \n\n📍 123 Coffee Lane\n⏰ Mon-Sun: 7AM-8PM\n\nJoin us for:\n✅ Handcrafted espresso drinks\n✅ Freshly baked pastries\n✅ Cozy atmosphere\n✅ Free WiFi\n\nTag a friend who needs coffee! 👇\n\n#GrandOpening #CoffeeLovers #CafeLife #NewInTown",
-        'digital marketing': "# Digital Marketing Trends 2023\n\n## 1. AI-Powered Personalization\nBrands are increasingly using AI to deliver hyper-personalized experiences to customers across channels.\n\n## 2. Voice Search Optimization\nWith the growth of smart speakers, optimizing for voice search has become crucial for SEO strategies.\n\n## 3. Short-Form Video Content\nPlatforms like TikTok and Instagram Reels continue to dominate engagement metrics.\n\n## 4. Sustainability Marketing\nConsumers are favoring brands that demonstrate authentic commitment to environmental issues.",
-        'summer sale': "🌞 Beat the Heat with Our Sizzling Summer Sale! 🌞\n\nGet COOL savings with 50% OFF all summer essentials! \n\n☀️ Swimwear\n☀️ Sunglasses\n☀️ Beach accessories\n☀️ Outdoor gear\n\nLimited time offer - ends July 31st!\n\nShop now: example.com/summer-sale\n\n#SummerSale #Discount #HotDeals #Summer2023",
-        'SEO brief': "# SEO Brief: example.com\n\n## Current Status Analysis\nHomepage lacks meta description, image alt tags are missing, page load speed could be improved.\n\n## Recommended Actions\n1. Add unique meta descriptions to all pages\n2. Optimize images and add descriptive alt text\n3. Implement schema markup for key pages\n4. Improve internal linking structure\n5. Create content cluster around primary keywords\n\n## Target Keywords\n- Primary: 'example products', 'industry solutions'\n- Secondary: 'product features', 'industry tools'\n\n## Performance Metrics to Track\n- Organic traffic growth\n- Keyword ranking improvements\n- Conversion rate from organic search"
-      };
+    function generateContentBasedOnInput(goal) {
+      // Extract key information from the goal
+      const platformMatch = goal.match(/(facebook|fb|instagram|ig|twitter|blog|seo|linkedin)/i);
+      const platform = platformMatch ? platformMatch[0].toLowerCase() : 'social media';
       
-      // Find which example this is closest to
+      const toneMatch = goal.match(/tone:\s*(\w+)/i);
+      const tone = toneMatch ? toneMatch[1] : 'professional';
+      
+      // Generate content based on the actual input
       let responseText = "";
-      if (goal.toLowerCase().includes('coffee')) {
-        responseText = responses['coffee shop'];
-      } else if (goal.toLowerCase().includes('digital') || goal.toLowerCase().includes('blog')) {
-        responseText = responses['digital marketing'];
+      
+      // Determine content type
+      if (goal.toLowerCase().includes('facebook') || goal.toLowerCase().includes('fb')) {
+        responseText = generateFacebookPost(goal, tone);
+      } else if (goal.toLowerCase().includes('blog') || goal.toLowerCase().includes('article')) {
+        responseText = generateBlogArticle(goal, tone);
+      } else if (goal.toLowerCase().includes('seo')) {
+        responseText = generateSEOBrief(goal, tone);
       } else if (goal.toLowerCase().includes('sale') || goal.toLowerCase().includes('discount')) {
-        responseText = responses['summer sale'];
-      } else if (goal.toLowerCase().includes('seo') || goal.toLowerCase().includes('brief')) {
-        responseText = responses['SEO brief'];
+        responseText = generatePromotionalContent(goal, tone);
       } else {
-        responseText = `I've created marketing content based on your request: "${goal}"\n\n`;
-        responseText += "This would typically include:\n";
-        responseText += "- Engaging headline/hook\n- Key message points\n- Call to action\n- Relevant hashtags/links\n";
-        responseText += "\nFor more tailored content, please try one of our example prompts or provide more specific details.";
+        responseText = generateGenericContent(goal, tone);
       }
       
       return responseText;
+    }
+
+    function generateFacebookPost(goal, tone) {
+      const topic = goal.replace(/tone:\s*\w+/i, '').replace(/(facebook|fb)/i, '').trim();
+      
+      return `🌟 ${topic.charAt(0).toUpperCase() + topic.slice(1)} 🌟
+
+We're excited to share something special with you! 
+
+✨ What: ${topic}
+🎯 Why: Because you deserve the best
+📍 Where: Check our page for details
+⏰ When: Coming soon!
+
+Tag a friend who needs to see this! 👇
+
+#${topic.replace(/\s+/g, '')} #NewOffer #ExcitingNews`;
+    }
+
+    function generateBlogArticle(goal, tone) {
+      const topic = goal.replace(/tone:\s*\w+/i, '').replace(/(blog|article)/i, '').trim();
+      
+      return `# ${topic.charAt(0).toUpperCase() + topic.slice(1)}: A Comprehensive Guide
+
+## Introduction
+${topic} is becoming increasingly important in today's digital landscape. In this article, we'll explore the key aspects you need to know.
+
+## Key Points
+1. Understanding the basics of ${topic}
+2. How ${topic} can benefit you
+3. Best practices for implementing ${topic}
+4. Future trends in ${topic}
+
+## Conclusion
+${topic.charAt(0).toUpperCase() + topic.slice(1)} offers significant opportunities for those willing to explore them. By following the guidelines outlined above, you can maximize your success.
+
+Have questions about ${topic}? Leave a comment below!`;
+    }
+
+    function generateSEOBrief(goal, tone) {
+      const urlMatch = goal.match(/(https?:\/\/[^\s]+)/);
+      const url = urlMatch ? urlMatch[0] : 'https://example.com';
+      
+      return `# SEO Brief for ${url}
+
+## Current Analysis
+- Website has basic structure but lacks optimized content
+- Missing meta descriptions on key pages
+- Image alt tags need improvement
+- Page load speed could be optimized
+
+## Recommended Actions
+1. Conduct keyword research for your industry
+2. Optimize page titles and meta descriptions
+3. Improve internal linking structure
+4. Create quality content around target keywords
+5. Build authoritative backlinks
+
+## Target Metrics
+- Increase organic traffic by 40% in 6 months
+- Improve keyword rankings for 15+ primary terms
+- Reduce bounce rate by 20%`;
+    }
+
+    function generatePromotionalContent(goal, tone) {
+      const discountMatch = goal.match(/(\d+)% discount/i);
+      const discount = discountMatch ? discountMatch[0] : 'special discount';
+      
+      return `🎉 LIMITED TIME OFFER! 🎉
+
+Get our exclusive ${discount} on selected items!
+
+✨ What's included:
+- Premium products
+- Exclusive bundles
+- Limited edition items
+
+⏰ Offer expires soon - don't miss out!
+
+Shop now: example.com/sale
+
+#Sale #Discount #LimitedTimeOffer`;
+    }
+
+    function generateGenericContent(goal, tone) {
+      return `✅ Content Generated Successfully!
+
+Based on your request: "${goal}"
+
+Here's your customized marketing content:
+
+🎯 Key Message: 
+We're excited to share our latest offering with you!
+
+✨ Highlights:
+- Premium quality
+- Exceptional value
+- Limited availability
+
+📞 Call to Action:
+Contact us today to learn more!
+
+#Marketing #NewOffer #Opportunity`;
     }
 
     async function generateContent() {
@@ -455,7 +556,7 @@
         // For demonstration, we'll use a simulated response
         await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API delay
         
-        resultEl.innerHTML = simulateAPIResponse(goal);
+        resultEl.innerHTML = generateContentBasedOnInput(goal);
         showNotification('Content generated successfully!', 'success');
       } catch (err) {
         console.error('Content generation failed:', err);
