@@ -1,780 +1,785 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marketing Agent - Complete Platform</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --primary: #4361ee;
-      --primary-dark: #3a56d4;
-      --secondary: #6c757d;
-      --success: #28a745;
-      --warning: #ffc107;
-      --danger: #dc3545;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --border: #dee2e6;
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-      color: var(--dark);
-      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-      min-height: 100vh;
-      padding: 20px;
-    }
-    
-    .app-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    }
-    
-    /* Navigation */
-    .navbar {
-      background: var(--primary);
-      padding: 15px 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .navbar-brand {
-      color: white;
-      font-size: 1.5rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .nav-tabs {
-      display: flex;
-      gap: 5px;
-    }
-    
-    .nav-tab {
-      padding: 10px 20px;
-      border-radius: 6px;
-      color: rgba(255, 255, 255, 0.8);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .nav-tab.active {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-    }
-    
-    .nav-tab:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-    }
-    
-    /* Content Area */
-    .content-area {
-      padding: 25px;
-      min-height: 500px;
-    }
-    
-    /* Content Generator Styles */
-    .content-generator {
-      display: block;
-    }
-    
-    .status-dashboard {
-      display: none;
-    }
-    
-    .input-group {
-      margin-bottom: 25px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: 600;
-      color: var(--dark);
-    }
-    
-    textarea {
-      width: 100%;
-      height: 140px;
-      padding: 16px;
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      font-size: 16px;
-      font-family: inherit;
-      resize: vertical;
-      transition: all 0.3s ease;
-    }
-    
-    textarea:focus {
-      border-color: var(--primary);
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-    
-    .button-group {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 25px;
-    }
-    
-    button {
-      flex: 1;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-    }
-    
-    .btn-secondary {
-      background: #f1f5f9;
-      color: var(--secondary);
-    }
-    
-    .btn-secondary:hover {
-      background: #e2e8f0;
-    }
-    
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 20px;
-      margin: 20px 0;
-      border-radius: 10px;
-      background: #f8fafc;
-    }
-    
-    .spinner {
-      width: 40px;
-      height: 40px;
-      margin: 0 auto 15px;
-      border: 4px solid rgba(67, 97, 238, 0.1);
-      border-left-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    .result-container {
-      margin-top: 30px;
-      border: 2px dashed var(--border);
-      border-radius: 10px;
-      padding: 20px;
-      background: #f8fafc;
-    }
-    
-    .result-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .result-title {
-      font-weight: 600;
-      color: var(--dark);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    #result {
-      padding: 20px;
-      border-radius: 8px;
-      background: white;
-      white-space: pre-wrap;
-      min-height: 150px;
-      border: 1px solid var(--border);
-    }
-    
-    .result-placeholder {
-      color: var(--secondary);
-      font-style: italic;
-      display: flex;
-      height: 100%;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
-    }
-    
-    .action-btn {
-      padding: 10px 15px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .copy-btn {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .copy-btn:hover {
-      background: var(--primary-dark);
-    }
-    
-    .save-btn {
-      background: var(--success);
-      color: white;
-    }
-    
-    .save-btn:hover {
-      background: #218838;
-    }
-    
-    .examples {
-      margin-top: 30px;
-      padding: 20px;
-      background: #f1f5f9;
-      border-radius: 10px;
-    }
-    
-    .examples h3 {
-      margin-bottom: 15px;
-      color: var(--dark);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .example {
-      cursor: pointer;
-      padding: 12px 15px;
-      margin: 8px 0;
-      background: #fff;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      border-left: 3px solid transparent;
-    }
-    
-    .example:hover {
-      background: var(--primary);
-      color: white;
-      border-left-color: var(--primary-dark);
-      transform: translateX(5px);
-    }
-    
-    /* Status Dashboard Styles */
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-      margin-bottom: 30px;
-    }
-    
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-    
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    
-    .card-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .card-icon {
-      width: 50px;
-      height: 50px;
-      background: var(--primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 15px;
-      color: white;
-      font-size: 1.5rem;
-    }
-    
-    .card-title {
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--dark);
-    }
-    
-    .status-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #f1f3f4;
-    }
-    
-    .status-item:last-child {
-      border-bottom: none;
-    }
-    
-    .status-label {
-      font-weight: 500;
-      color: var(--secondary);
-    }
-    
-    .status-value {
-      font-weight: 600;
-    }
-    
-    .status-online {
-      color: var(--success);
-    }
-    
-    .status-offline {
-      color: var(--danger);
-    }
-    
-    .status-warning {
-      color: var(--warning);
-    }
-    
-    .endpoints {
-      margin-top: 20px;
-    }
-    
-    .endpoint-list {
-      list-style: none;
-    }
-    
-    .endpoint-list li {
-      padding: 10px 15px;
-      background: #f8fafc;
-      margin-bottom: 8px;
-      border-radius: 6px;
-      font-family: monospace;
-      display: flex;
-      align-items: center;
-    }
-    
-    .endpoint-method {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-right: 10px;
-      min-width: 60px;
-      text-align: center;
-    }
-    
-    .method-get {
-      background: #e3f2fd;
-      color: var(--primary);
-    }
-    
-    .method-post {
-      background: #e8f5e9;
-      color: var(--success);
-    }
-    
-    .actions {
-      display: flex;
-      gap: 15px;
-      margin-top: 20px;
-    }
-    
-    .logs-container {
-      background: rgba(0, 0, 0, 0.8);
-      color: #00ff00;
-      padding: 20px;
-      border-radius: 8px;
-      font-family: monospace;
-      height: 200px;
-      overflow-y: auto;
-      margin-top: 30px;
-    }
-    
-    .log-entry {
-      margin-bottom: 8px;
-      line-height: 1.4;
-    }
-    
-    .log-time {
-      color: #888;
-      margin-right: 10px;
-    }
-    
-    .notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 15px 20px;
-      border-radius: 8px;
-      color: white;
-      font-weight: 600;
-      opacity: 0;
-      transform: translateX(100%);
-      transition: all 0.5s ease;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .notification.show {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    
-    .notification.success {
-      background: var(--success);
-    }
-    
-    .notification.error {
-      background: var(--danger);
-    }
-    
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      color: var(--secondary);
-      font-size: 0.9rem;
-      padding: 20px;
-      border-top: 1px solid var(--border);
-    }
-    
-    @media (max-width: 768px) {
-      .dashboard {
-        grid-template-columns: 1fr;
-      }
-      
-      .actions {
-        flex-direction: column;
-      }
-      
-      .navbar {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      .nav-tabs {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Agent Backend</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --border: #dee2e6;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: var(--primary);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .nav-tab {
+            padding: 10px 20px;
+            border-radius: 6px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        /* Content Area */
+        .content-area {
+            padding: 25px;
+            min-height: 500px;
+        }
+        
+        /* Content Generator Styles */
+        .content-generator {
+            display: block;
+        }
+        
+        .status-dashboard {
+            display: none;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        textarea {
+            width: 100%;
+            height: 140px;
+            padding: 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+        
+        textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #f1f5f9;
+            color: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background: #f8fafc;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 15px;
+            border: 4px solid rgba(67, 97, 238, 0.1);
+            border-left-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .result-container {
+            margin-top: 30px;
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .result-title {
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #result {
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            white-space: pre-wrap;
+            min-height: 150px;
+            border: 1px solid var(--border);
+        }
+        
+        .result-placeholder {
+            color: var(--secondary);
+            font-style: italic;
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .save-btn {
+            background: var(--success);
+            color: white;
+        }
+        
+        .save-btn:hover {
+            background: #218838;
+        }
+        
+        .examples {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        
+        .examples h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .example {
+            cursor: pointer;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #fff;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .example:hover {
+            background: var(--primary);
+            color: white;
+            border-left-color: var(--primary-dark);
+            transform: translateX(5px);
+        }
+        
+        /* Status Dashboard Styles */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status-label {
+            font-weight: 500;
+            color: var(--secondary);
+        }
+        
+        .status-value {
+            font-weight: 600;
+        }
+        
+        .status-online {
+            color: var(--success);
+        }
+        
+        .status-offline {
+            color: var(--danger);
+        }
+        
+        .status-warning {
+            color: var(--warning);
+        }
+        
+        .endpoints {
+            margin-top: 20px;
+        }
+        
+        .endpoint-list {
+            list-style: none;
+        }
+        
+        .endpoint-list li {
+            padding: 10px 15px;
+            background: #f8fafc;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            display: flex;
+            align-items: center;
+        }
+        
+        .endpoint-method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 10px;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .method-get {
+            background: #e3f2fd;
+            color: var(--primary);
+        }
+        
+        .method-post {
+            background: #e8f5e9;
+            color: var(--success);
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .logs-container {
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            height: 200px;
+            overflow-y: auto;
+            margin-top: 30px;
+        }
+        
+        .log-entry {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .log-time {
+            color: #888;
+            margin-right: 10px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: var(--success);
+        }
+        
+        .notification.error {
+            background: var(--danger);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-tabs {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="app-container">
-    <nav class="navbar">
-      <div class="navbar-brand">
-        <i class="fas fa-rocket"></i>
-        <span>Marketing Agent</span>
-      </div>
-      <div class="nav-tabs">
-        <div class="nav-tab active" data-tab="content-generator">Content Generator</div>
-        <div class="nav-tab" data-tab="status-dashboard">Status Dashboard</div>
-      </div>
-    </nav>
-    
-    <div class="content-area">
-      <!-- Content Generator -->
-      <div id="content-generator" class="content-generator">
-        <header>
-          <h1>🎯 Marketing Content Agent</h1>
-          <p class="subtitle">Generate engaging marketing content with AI assistance</p>
-        </header>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <i class="fas fa-rocket"></i>
+                <span>Marketing Agent</span>
+            </div>
+            <div class="nav-tabs">
+                <div class="nav-tab active" data-tab="content-generator">Content Generator</div>
+                <div class="nav-tab" data-tab="status-dashboard">Status Dashboard</div>
+            </div>
+        </nav>
+        
+        <div class="content-area">
+            <!-- Content Generator -->
+            <div id="content-generator" class="content-generator">
+                <header>
+                    <h1>🎯 Marketing Content Agent</h1>
+                    <p class="subtitle">Generate engaging marketing content with AI assistance</p>
+                </header>
 
-        <div class="input-group">
-          <label for="goal">Enter your content goal:</label>
-          <textarea id="goal" placeholder="Example: Create Facebook post about coffee shop opening with enthusiastic tone"></textarea>
-        </div>
+                <div class="input-group">
+                    <label for="goal">Enter your content goal:</label>
+                    <textarea id="goal" placeholder="Example: Create Facebook post about coffee shop opening with enthusiastic tone"></textarea>
+                </div>
 
-        <div class="button-group">
-          <button id="generateBtn" class="btn-primary">
-            <span>⚡</span> Generate Content
-          </button>
-          <button id="clearBtn" class="btn-secondary">
-            <span>🗑️</span> Clear
-          </button>
-        </div>
+                <div class="button-group">
+                    <button id="generateBtn" class="btn-primary">
+                        <span>⚡</span> Generate Content
+                    </button>
+                    <button id="clearBtn" class="btn-secondary">
+                        <span>🗑️</span> Clear
+                    </button>
+                </div>
 
-        <div id="loading" class="loading">
-          <div class="spinner"></div>
-          <p>Generating your marketing content... This may take a moment</p>
+                <div id="loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Generating your marketing content... This may take a moment</p>
+                </div>
+                
+                <div class="result-container">
+                    <div class="result-header">
+                        <div class="result-title">
+                            <span>📋</span> Generated Content
+                        </div>
+                    </div>
+                    <div id="result">
+                        <div class="result-placeholder">
+                            <div>
+                                <p>Your generated content will appear here</p>
+                                <p>⬇️ Enter your goal and click Generate</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="action-btn copy-btn" id="copyBtn">
+                            <span>📄</span> Copy to Clipboard
+                        </button>
+                        <button class="action-btn save-btn" id="saveBtn">
+                            <span>💾</span> Save as File
+                        </button>
+                    </div>
+                </div>
+
+                <div class="examples">
+                    <h3><span>💡</span> Example Prompts:</h3>
+                    <div class="example" onclick="setGoal('Create Facebook post about coffee shop opening tone: enthusiastic')">Create Facebook post about coffee shop</div>
+                    <div class="example" onclick="setGoal('Write blog article about digital marketing trends save as marketing-trends.md')">Write blog article about digital marketing</div>
+                    <div class="example" onclick="setGoal('Make FB post promoting summer sale with 50% discount tone: casual')">Promote summer sale with discount</div>
+                    <div class="example" onclick="setGoal('Create SEO brief for https://example.com tone: professional')">Create SEO brief for website</div>
+                </div>
+            </div>
+            
+            <!-- Status Dashboard -->
+            <div id="status-dashboard" class="status-dashboard">
+                <header>
+                    <h1>Marketing Agent Backend</h1>
+                    <p class="subtitle">Server Status Dashboard</p>
+                </header>
+                
+                <div class="dashboard">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="card-title">Server Status</div>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">API Status:</span>
+                            <span class="status-value status-online" id="api-status">Checking...</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Environment:</span>
+                            <span class="status-value">Production</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Uptime:</span>
+                            <span class="status-value" id="uptime">00:00:00</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Last Check:</span>
+                            <span class="status-value" id="last-check">Just now</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="card-title">API Resources</div>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">OpenAI API:</span>
+                            <span class="status-value status-online" id="openai-status">Checking...</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Memory Usage:</span>
+                            <span class="status-value" id="memory-usage">0 MB</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Response Time:</span>
+                            <span class="status-value" id="response-time">0 ms</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Requests Today:</span>
+                            <span class="status-value" id="request-count">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-plug"></i>
+                            </div>
+                            <div class="card-title">API Endpoints</div>
+                        </div>
+                        <div class="endpoints">
+                            <ul class="endpoint-list">
+                                <li>
+                                    <span class="endpoint-method method-post">POST</span>
+                                    <span>/api/generate-content</span>
+                                </li>
+                                <li>
+                                    <span class="endpoint-method method-get">GET</span>
+                                    <span>/api/health</span>
+                                </li>
+                                <li>
+                                    <span class="endpoint-method method-get">GET</span>
+                                    <span>/api/status</span>
+                                </li>
+                                <li>
+                                    <span class="endpoint-method method-get">GET</span>
+                                    <span>/api/campaigns</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn btn-primary" id="check-now-btn">
+                        <i class="fas fa-sync-alt"></i> Check Status Now
+                    </button>
+                </div>
+                
+                <div class="logs-container" id="server-logs">
+                    <div class="log-entry">
+                        <span class="log-time">[12:34:56]</span> Server started successfully
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-time">[12:35:01]</span> Connected to OpenAI API
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-time">[12:35:45]</span> Received first API request
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-time">[12:36:22]</span> Content generated for user #123
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <div class="result-container">
-          <div class="result-header">
-            <div class="result-title">
-              <span>📋</span> Generated Content
-            </div>
-          </div>
-          <div id="result">
-            <div class="result-placeholder">
-              <div>
-                <p>Your generated content will appear here</p>
-                <p>⬇️ Enter your goal and click Generate</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="action-buttons">
-            <button class="action-btn copy-btn" id="copyBtn">
-              <span>📄</span> Copy to Clipboard
-            </button>
-            <button class="action-btn save-btn" id="saveBtn">
-              <span>💾</span> Save as File
-            </button>
-          </div>
-        </div>
-
-        <div class="examples">
-          <h3><span>💡</span> Example Prompts:</h3>
-          <div class="example" onclick="setGoal('Create Facebook post about coffee shop opening tone: enthusiastic')">Create Facebook post about coffee shop</div>
-          <div class="example" onclick="setGoal('Write blog article about digital marketing trends save as marketing-trends.md')">Write blog article about digital marketing</div>
-          <div class="example" onclick="setGoal('Make FB post promoting summer sale with 50% discount tone: casual')">Promote summer sale with discount</div>
-          <div class="example" onclick="setGoal('Create SEO brief for https://example.com tone: professional')">Create SEO brief for website</div>
-        </div>
-      </div>
-      
-      <!-- Status Dashboard -->
-      <div id="status-dashboard" class="status-dashboard">
-        <header>
-          <h1>Marketing Agent Backend</h1>
-          <p class="subtitle">Server Status Dashboard</p>
-        </header>
-        
-        <div class="dashboard">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i class="fas fa-server"></i>
-              </div>
-              <div class="card-title">Server Status</div>
-            </div>
-            <div class="status-item">
-              <span class="status-label">API Status:</span>
-              <span class="status-value status-online" id="api-status">Online</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Environment:</span>
-              <span class="status-value">Production</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Uptime:</span>
-              <span class="status-value" id="uptime">00:00:00</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Last Check:</span>
-              <span class="status-value" id="last-check">Just now</span>
-            </div>
-          </div>
-          
-          <div class="card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i class="fas fa-bolt"></i>
-              </div>
-              <div class="card-title">API Resources</div>
-            </div>
-            <div class="status-item">
-              <span class="status-label">OpenAI API:</span>
-              <span class="status-value status-online" id="openai-status">Connected</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Memory Usage:</span>
-              <span class="status-value" id="memory-usage">0 MB</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Response Time:</span>
-              <span class="status-value" id="response-time">0 ms</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Requests Today:</span>
-              <span class="status-value" id="request-count">0</span>
-            </div>
-          </div>
-          
-          <div class="card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i class="fas fa-plug"></i>
-              </div>
-              <div class="card-title">API Endpoints</div>
-            </div>
-            <div class="endpoints">
-              <ul class="endpoint-list">
-                <li>
-                  <span class="endpoint-method method-post">POST</span>
-                  <span>/api/generate-content</span>
-                </li>
-                <li>
-                  <span class="endpoint-method method-get">GET</span>
-                  <span>/api/health</span>
-                </li>
-                <li>
-                  <span class="endpoint-method method-get">GET</span>
-                  <span>/api/status</span>
-                </li>
-                <li>
-                  <span class="endpoint-method method-get">GET</span>
-                  <span>/api/campaigns</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        <div class="actions">
-          <button class="btn btn-primary" id="check-now-btn">
-            <i class="fas fa-sync-alt"></i> Check Status Now
-          </button>
-        </div>
-        
-        <div class="logs-container" id="server-logs">
-          <div class="log-entry">
-            <span class="log-time">[12:34:56]</span> Server started successfully
-          </div>
-          <div class="log-entry">
-            <span class="log-time">[12:35:01]</span> Connected to OpenAI API
-          </div>
-          <div class="log-entry">
-            <span class="log-time">[12:35:45]</span> Received first API request
-          </div>
-          <div class="log-entry">
-            <span class="log-time">[12:36:22]</span> Content generated for user #123
-          </div>
-        </div>
-      </div>
+        <footer>
+            <p>Marketing Agent Platform &copy; 2023 | Generate engaging content in seconds</p>
+        </footer>
     </div>
-    
-    <footer>
-      <p>Marketing Agent Platform &copy; 2023 | Generate engaging content in seconds</p>
-    </footer>
-  </div>
 
-  <div id="notification" class="notification"></div>
+    <div id="notification" class="notification"></div>
 
-  <script>
-    // Tab Navigation
-    const tabs = document.querySelectorAll('.nav-tab');
-    const contentGenerator = document.getElementById('content-generator');
-    const statusDashboard = document.getElementById('status-dashboard');
-    
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        // Update active tab
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+    <script>
+        // Tab Navigation
+        const tabs = document.querySelectorAll('.nav-tab');
+        const contentGenerator = document.getElementById('content-generator');
+        const statusDashboard = document.getElementById('status-dashboard');
         
-        // Show corresponding content
-        const tabName = tab.getAttribute('data-tab');
-        contentGenerator.style.display = tabName === 'content-generator' ? 'block' : 'none';
-        statusDashboard.style.display = tabName === 'status-dashboard' ? 'block' : 'none';
-      });
-    });
-    
-    // Content Generator Functions
-    const goalInput = document.getElementById('goal');
-    const generateBtn = document.getElementById('generateBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const loadingEl = document.getElementById('loading');
-    const resultEl = document.getElementById('result');
-    const notificationEl = document.getElementById('notification');
-    const copyBtn = document.getElementById('copyBtn');
-    const saveBtn = document.getElementById('saveBtn');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                const tabName = tab.getAttribute('data-tab');
+                contentGenerator.style.display = tabName === 'content-generator' ? 'block' : 'none';
+                statusDashboard.style.display = tabName === 'status-dashboard' ? 'block' : 'none';
+                
+                // If switching to status dashboard, check server status
+                if (tabName === 'status-dashboard') {
+                    checkServerStatus();
+                }
+            });
+        });
+        
+        // Content Generator Functions
+        const goalInput = document.getElementById('goal');
+        const generateBtn = document.getElementById('generateBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const loadingEl = document.getElementById('loading');
+        const resultEl = document.getElementById('result');
+        const notificationEl = document.getElementById('notification');
+        const copyBtn = document.getElementById('copyBtn');
+        const saveBtn = document.getElementById('saveBtn');
 
-    function setGoal(text) {
-      goalInput.value = text;
-      goalInput.focus();
-    }
-    
-    function showNotification(message, type) {
-      notificationEl.textContent = message;
-      notificationEl.className = `notification ${type}`;
-      notificationEl.classList.add('show');
-      
-      setTimeout(() => {
-        notificationEl.classList.remove('show');
-      }, 3000);
-    }
+        function setGoal(text) {
+            goalInput.value = text;
+            goalInput.focus();
+        }
+        
+        function showNotification(message, type) {
+            notificationEl.textContent = message;
+            notificationEl.className = `notification ${type}`;
+            notificationEl.classList.add('show');
+            
+            setTimeout(() => {
+                notificationEl.classList.remove('show');
+            }, 3000);
+        }
 
-    function generateContentBasedOnInput(goal) {
-      // Extract key information from the goal
-      const platformMatch = goal.match(/(facebook|fb|instagram|ig|twitter|blog|seo|linkedin)/i);
-      const platform = platformMatch ? platformMatch[0].toLowerCase() : 'social media';
-      
-      const toneMatch = goal.match(/tone:\s*(\w+)/i);
-      const tone = toneMatch ? toneMatch[1] : 'professional';
-      
-      // Generate content based on the actual input
-      let responseText = "";
-      
-      // Determine content type
-      if (goal.toLowerCase().includes('facebook') || goal.toLowerCase().includes('fb')) {
-        responseText = generateFacebookPost(goal, tone);
-      } else if (goal.toLowerCase().includes('blog') || goal.toLowerCase().includes('article')) {
-        responseText = generateBlogArticle(goal, tone);
-      } else if (goal.toLowerCase().includes('seo')) {
-        responseText = generateSEOBrief(goal, tone);
-      } else if (goal.toLowerCase().includes('sale') || goal.toLowerCase().includes('discount')) {
-        responseText = generatePromotionalContent(goal, tone);
-      } else {
-        responseText = generateGenericContent(goal, tone);
-      }
-      
-      return responseText;
-    }
+        function generateContentBasedOnInput(goal) {
+            // Extract key information from the goal
+            const platformMatch = goal.match(/(facebook|fb|instagram|ig|twitter|blog|seo|linkedin)/i);
+            const platform = platformMatch ? platformMatch[0].toLowerCase() : 'social media';
+            
+            const toneMatch = goal.match(/tone:\s*(\w+)/i);
+            const tone = toneMatch ? toneMatch[1] : 'professional';
+            
+            // Generate content based on the actual input
+            let responseText = "";
+            
+            // Determine content type
+            if (goal.toLowerCase().includes('facebook') || goal.toLowerCase().includes('fb')) {
+                responseText = generateFacebookPost(goal, tone);
+            } else if (goal.toLowerCase().includes('blog') || goal.toLowerCase().includes('article')) {
+                responseText = generateBlogArticle(goal, tone);
+            } else if (goal.toLowerCase().includes('seo')) {
+                responseText = generateSEOBrief(goal, tone);
+            } else if (goal.toLowerCase().includes('sale') || goal.toLowerCase().includes('discount')) {
+                responseText = generatePromotionalContent(goal, tone);
+            } else {
+                responseText = generateGenericContent(goal, tone);
+            }
+            
+            return responseText;
+        }
 
-    function generateFacebookPost(goal, tone) {
-      const topic = goal.replace(/tone:\s*\w+/i, '').replace(/(facebook|fb)/i, '').trim();
-      
-      return `🌟 ${topic.charAt(0).toUpperCase() + topic.slice(1)} 🌟
+        function generateFacebookPost(goal, tone) {
+            const topic = goal.replace(/tone:\s*\w+/i, '').replace(/(facebook|fb)/i, '').trim();
+            
+            return `🌟 ${topic.charAt(0).toUpperCase() + topic.slice(1)} 🌟
 
 We're excited to share something special with you! 
 
@@ -786,12 +791,12 @@ We're excited to share something special with you!
 Tag a friend who needs to see this! 👇
 
 #${topic.replace(/\s+/g, '')} #NewOffer #ExcitingNews`;
-    }
+        }
 
-    function generateBlogArticle(goal, tone) {
-      const topic = goal.replace(/tone:\s*\w+/i, '').replace(/(blog|article)/i, '').trim();
-      
-      return `# ${topic.charAt(0).toUpperCase() + topic.slice(1)}: A Comprehensive Guide
+        function generateBlogArticle(goal, tone) {
+            const topic = goal.replace(/tone:\s*\w+/i, '').replace(/(blog|article)/i, '').trim();
+            
+            return `# ${topic.charAt(0).toUpperCase() + topic.slice(1)}: A Comprehensive Guide
 
 ## Introduction
 ${topic} is becoming increasingly important in today's digital landscape. In this article, we'll explore the key aspects you need to know.
@@ -806,13 +811,13 @@ ${topic} is becoming increasingly important in today's digital landscape. In thi
 ${topic.charAt(0).toUpperCase() + topic.slice(1)} offers significant opportunities for those willing to explore them. By following the guidelines outlined above, you can maximize your success.
 
 Have questions about ${topic}? Leave a comment below!`;
-    }
+        }
 
-    function generateSEOBrief(goal, tone) {
-      const urlMatch = goal.match(/(https?:\/\/[^\s]+)/);
-      const url = urlMatch ? urlMatch[0] : 'https://example.com';
-      
-      return `# SEO Brief for ${url}
+        function generateSEOBrief(goal, tone) {
+            const urlMatch = goal.match(/(https?:\/\/[^\s]+)/);
+            const url = urlMatch ? urlMatch[0] : 'https://example.com';
+            
+            return `# SEO Brief for ${url}
 
 ## Current Analysis
 - Website has basic structure but lacks optimized content
@@ -831,13 +836,13 @@ Have questions about ${topic}? Leave a comment below!`;
 - Increase organic traffic by 40% in 6 months
 - Improve keyword rankings for 15+ primary terms
 - Reduce bounce rate by 20%`;
-    }
+        }
 
-    function generatePromotionalContent(goal, tone) {
-      const discountMatch = goal.match(/(\d+)% discount/i);
-      const discount = discountMatch ? discountMatch[0] : 'special discount';
-      
-      return `🎉 LIMITED TIME OFFER! 🎉
+        function generatePromotionalContent(goal, tone) {
+            const discountMatch = goal.match(/(\d+)% discount/i);
+            const discount = discountMatch ? discountMatch[0] : 'special discount';
+            
+            return `🎉 LIMITED TIME OFFER! 🎉
 
 Get our exclusive ${discount} on selected items!
 
@@ -851,10 +856,10 @@ Get our exclusive ${discount} on selected items!
 Shop now: example.com/sale
 
 #Sale #Discount #LimitedTimeOffer`;
-    }
+        }
 
-    function generateGenericContent(goal, tone) {
-      return `✅ Content Generated Successfully!
+        function generateGenericContent(goal, tone) {
+            return `✅ Content Generated Successfully!
 
 Based on your request: "${goal}"
 
@@ -872,200 +877,203 @@ We're excited to share our latest offering with you!
 Contact us today to learn more!
 
 #Marketing #NewOffer #Opportunity`;
-    }
+        }
 
-    async function generateContent() {
-      const goal = goalInput.value.trim();
+        async function generateContent() {
+            const goal = goalInput.value.trim();
 
-      if (!goal) {
-        showNotification('Please enter a content goal first', 'error');
-        return;
-      }
+            if (!goal) {
+                showNotification('Please enter a content goal first', 'error');
+                return;
+            }
 
-      loadingEl.style.display = 'block';
-      
-      try {
-        // In a real implementation, you would call your API here
-        // For demonstration, we'll use a simulated response
-        await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API delay
+            loadingEl.style.display = 'block';
+            
+            try {
+                // In a real implementation, you would call your API here
+                // For demonstration, we'll use a simulated response
+                await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API delay
+                
+                resultEl.innerHTML = generateContentBasedOnInput(goal);
+                showNotification('Content generated successfully!', 'success');
+            } catch (err) {
+                console.error('Content generation failed:', err);
+                resultEl.innerHTML = "Sorry, we couldn't generate content at this time. Please try again.";
+                showNotification('Content generation failed', 'error');
+            } finally {
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        function clearContent() {
+            goalInput.value = '';
+            resultEl.innerHTML = '<div class="result-placeholder"><div><p>Your generated content will appear here</p><p>⬇️ Enter your goal and click Generate</p></div></div>';
+            goalInput.focus();
+        }
+
+        function copyToClipboard() {
+            if (resultEl.textContent.includes('Your generated content will appear here')) {
+                showNotification('No content to copy', 'error');
+                return;
+            }
+            
+            navigator.clipboard.writeText(resultEl.textContent)
+                .then(() => {
+                    showNotification('Content copied to clipboard!', 'success');
+                })
+                .catch(err => {
+                    showNotification('Failed to copy content', 'error');
+                    console.error('Failed to copy: ', err);
+                });
+        }
+
+        function saveToFile() {
+            if (resultEl.textContent.includes('Your generated content will appear here')) {
+                showNotification('No content to save', 'error');
+                return;
+            }
+            
+            // Create a blob with the content
+            const blob = new Blob([resultEl.textContent], { type: 'text/plain' });
+            
+            // Create a download link
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            
+            // Generate filename based on content
+            let filename = 'marketing-content.txt';
+            const firstLine = resultEl.textContent.split('\n')[0];
+            if (firstLine) {
+                filename = firstLine.substring(0, 30).replace(/[^a-zA-Z0-9]/g, '-') + '.txt';
+            }
+            
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            
+            // Clean up
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showNotification('Content saved as file!', 'success');
+            }, 100);
+        }
+
+        // Status Dashboard Functions
+        const apiStatus = document.getElementById('api-status');
+        const uptimeElement = document.getElementById('uptime');
+        const lastCheckElement = document.getElementById('last-check');
+        const openaiStatus = document.getElementById('openai-status');
+        const memoryUsageElement = document.getElementById('memory-usage');
+        const responseTimeElement = document.getElementById('response-time');
+        const requestCountElement = document.getElementById('request-count');
+        const checkNowBtn = document.getElementById('check-now-btn');
+        const serverLogs = document.getElementById('server-logs');
         
-        resultEl.innerHTML = generateContentBasedOnInput(goal);
-        showNotification('Content generated successfully!', 'success');
-      } catch (err) {
-        console.error('Content generation failed:', err);
-        resultEl.innerHTML = "Sorry, we couldn't generate content at this time. Please try again.";
-        showNotification('Content generation failed', 'error');
-      } finally {
-        loadingEl.style.display = 'none';
-      }
-    }
-
-    function clearContent() {
-      goalInput.value = '';
-      resultEl.innerHTML = '<div class="result-placeholder"><div><p>Your generated content will appear here</p><p>⬇️ Enter your goal and click Generate</p></div></div>';
-      goalInput.focus();
-    }
-
-    function copyToClipboard() {
-      if (resultEl.textContent.includes('Your generated content will appear here')) {
-        showNotification('No content to copy', 'error');
-        return;
-      }
-      
-      navigator.clipboard.writeText(resultEl.textContent)
-        .then(() => {
-          showNotification('Content copied to clipboard!', 'success');
-        })
-        .catch(err => {
-          showNotification('Failed to copy content', 'error');
-          console.error('Failed to copy: ', err);
+        // Uptime counter
+        let startTime = Date.now();
+        
+        function updateUptime() {
+            const now = Date.now();
+            const diff = now - startTime;
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            
+            uptimeElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Check server status
+        async function checkServerStatus() {
+            checkNowBtn.innerHTML = '<div class="spinner"></div> Checking...';
+            
+            try {
+                // Try to hit the health endpoint
+                const response = await fetch('/api/health');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    apiStatus.textContent = 'Online';
+                    apiStatus.className = 'status-value status-online';
+                    openaiStatus.textContent = 'Connected';
+                    openaiStatus.className = 'status-value status-online';
+                    showNotification('Server is online and responding', 'success');
+                    
+                    // Update metrics with simulated data
+                    memoryUsageElement.textContent = `${(Math.random() * 100).toFixed(2)} MB`;
+                    responseTimeElement.textContent = `${(Math.random() * 200).toFixed(2)} ms`;
+                    requestCountElement.textContent = Math.floor(Math.random() * 1000);
+                } else {
+                    throw new Error('Server returned error status');
+                }
+            } catch (error) {
+                apiStatus.textContent = 'Offline';
+                apiStatus.className = 'status-value status-offline';
+                openaiStatus.textContent = 'Disconnected';
+                openaiStatus.className = 'status-value status-offline';
+                showNotification('Unable to connect to server', 'error');
+            }
+            
+            lastCheckElement.textContent = new Date().toLocaleTimeString();
+            checkNowBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Check Status Now';
+            
+            // Add a log entry
+            addLogEntry(`Server status checked at ${new Date().toLocaleTimeString()}`);
+        }
+        
+        function addLogEntry(message) {
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.innerHTML = `<span class="log-time">[${new Date().toLocaleTimeString()}]</span> ${message}`;
+            serverLogs.appendChild(logEntry);
+            serverLogs.scrollTop = serverLogs.scrollHeight;
+        }
+        
+        // Event listeners for content generator
+        generateBtn.addEventListener('click', generateContent);
+        clearBtn.addEventListener('click', clearContent);
+        copyBtn.addEventListener('click', copyToClipboard);
+        saveBtn.addEventListener('click', saveToFile);
+        
+        // Event listeners for status dashboard
+        checkNowBtn.addEventListener('click', checkServerStatus);
+        
+        // Ctrl+Enter shortcut for content generation
+        goalInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                e.preventDefault();
+                generateContent();
+            }
         });
-    }
-
-    function saveToFile() {
-      if (resultEl.textContent.includes('Your generated content will appear here')) {
-        showNotification('No content to save', 'error');
-        return;
-      }
-      
-      // Create a blob with the content
-      const blob = new Blob([resultEl.textContent], { type: 'text/plain' });
-      
-      // Create a download link
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      
-      // Generate filename based on content
-      let filename = 'marketing-content.txt';
-      const firstLine = resultEl.textContent.split('\n')[0];
-      if (firstLine) {
-        filename = firstLine.substring(0, 30).replace(/[^a-zA-Z0-9]/g, '-') + '.txt';
-      }
-      
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      
-      // Clean up
-      setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        showNotification('Content saved as file!', 'success');
-      }, 100);
-    }
-
-    // Status Dashboard Functions
-    const apiStatus = document.getElementById('api-status');
-    const uptimeElement = document.getElementById('uptime');
-    const lastCheckElement = document.getElementById('last-check');
-    const openaiStatus = document.getElementById('openai-status');
-    const memoryUsageElement = document.getElementById('memory-usage');
-    const responseTimeElement = document.getElementById('response-time');
-    const requestCountElement = document.getElementById('request-count');
-    const checkNowBtn = document.getElementById('check-now-btn');
-    const serverLogs = document.getElementById('server-logs');
-    
-    // Uptime counter
-    let startTime = Date.now();
-    
-    function updateUptime() {
-      const now = Date.now();
-      const diff = now - startTime;
-      const hours = Math.floor(diff / 3600000);
-      const minutes = Math.floor((diff % 3600000) / 60000);
-      const seconds = Math.floor((diff % 60000) / 1000);
-      
-      uptimeElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-    
-    // Check server status
-    async function checkServerStatus() {
-      checkNowBtn.innerHTML = '<div class="spinner"></div> Checking...';
-      
-      try {
-        // Try to hit the health endpoint
-        const response = await fetch('/api/health');
         
-        if (response.ok) {
-          const data = await response.json();
-          apiStatus.textContent = 'Online';
-          apiStatus.className = 'status-value status-online';
-          showNotification('Server is online and responding', 'success');
-          
-          // Update metrics with simulated data
-          memoryUsageElement.textContent = `${(Math.random() * 100).toFixed(2)} MB`;
-          responseTimeElement.textContent = `${(Math.random() * 200).toFixed(2)} ms`;
-          requestCountElement.textContent = Math.floor(Math.random() * 1000);
-        } else {
-          throw new Error('Server returned error status');
-        }
-      } catch (error) {
-        apiStatus.textContent = 'Offline';
-        apiStatus.className = 'status-value status-offline';
-        openaiStatus.textContent = 'Disconnected';
-        openaiStatus.className = 'status-value status-offline';
-        showNotification('Unable to connect to server', 'error');
-      }
-      
-      lastCheckElement.textContent = new Date().toLocaleTimeString();
-      checkNowBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Check Status Now';
-      
-      // Add a log entry
-      addLogEntry(`Server status checked at ${new Date().toLocaleTimeString()}`);
-    }
-    
-    function addLogEntry(message) {
-      const logEntry = document.createElement('div');
-      logEntry.className = 'log-entry';
-      logEntry.innerHTML = `<span class="log-time">[${new Date().toLocaleTimeString()}]</span> ${message}`;
-      serverLogs.appendChild(logEntry);
-      serverLogs.scrollTop = serverLogs.scrollHeight;
-    }
-    
-    // Event listeners for content generator
-    generateBtn.addEventListener('click', generateContent);
-    clearBtn.addEventListener('click', clearContent);
-    copyBtn.addEventListener('click', copyToClipboard);
-    saveBtn.addEventListener('click', saveToFile);
-    
-    // Event listeners for status dashboard
-    checkNowBtn.addEventListener('click', checkServerStatus);
-    
-    // Ctrl+Enter shortcut for content generation
-    goalInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' && e.ctrlKey) {
-        e.preventDefault();
-        generateContent();
-      }
-    });
-    
-    // Initialize
-    setInterval(updateUptime, 1000);
-    updateUptime();
-    
-    // Check status on page load if on dashboard
-    if (statusDashboard.style.display === 'block') {
-      setTimeout(checkServerStatus, 1000);
-    }
-    
-    // Simulate receiving logs
-    setInterval(() => {
-      if (statusDashboard.style.display === 'block') {
-        const events = [
-          'Content generation request received',
-          'OpenAI API call completed',
-          'New user session started',
-          'Database query executed',
-          'Cache updated',
-          'Scheduled maintenance check'
-        ];
+        // Initialize
+        setInterval(updateUptime, 1000);
+        updateUptime();
         
-        if (Math.random() > 0.7) {
-          addLogEntry(events[Math.floor(Math.random() * events.length)]);
+        // Check status on page load if on dashboard
+        if (statusDashboard.style.display === 'block') {
+            setTimeout(checkServerStatus, 1000);
         }
-      }
-    }, 5000);
-  </script>
+        
+        // Simulate receiving logs
+        setInterval(() => {
+            if (statusDashboard.style.display === 'block') {
+                const events = [
+                    'Content generation request received',
+                    'OpenAI API call completed',
+                    'New user session started',
+                    'Database query executed',
+                    'Cache updated',
+                    'Scheduled maintenance check'
+                ];
+                
+                if (Math.random() > 0.7) {
+                    addLogEntry(events[Math.floor(Math.random() * events.length)]);
+                }
+            }
+        }, 5000);
+    </script>
 </body>
 </html>
+
