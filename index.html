@@ -14,6 +14,7 @@
       --success: #10b981;
       --error: #ef4444;
       --warning: #f59e0b;
+      --border: #e2e8f0;
     }
     
     * {
@@ -75,7 +76,7 @@
       width: 100%;
       height: 140px;
       padding: 16px;
-      border: 2px solid #e2e8f0;
+      border: 2px solid var(--border);
       border-radius: 10px;
       font-size: 16px;
       font-family: inherit;
@@ -148,14 +149,43 @@
       to { transform: rotate(360deg); }
     }
     
-    #result {
-      display: none;
-      padding: 25px;
+    .result-container {
+      margin-top: 30px;
+      border: 2px dashed var(--border);
       border-radius: 10px;
-      margin-top: 20px;
-      white-space: pre-wrap;
+      padding: 20px;
       background: #f8fafc;
-      border-left: 5px solid var(--primary);
+    }
+    
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .result-title {
+      font-weight: 600;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    #result {
+      padding: 20px;
+      border-radius: 8px;
+      background: white;
+      white-space: pre-wrap;
+      min-height: 150px;
+      border: 1px solid var(--border);
+    }
+    
+    .result-placeholder {
+      color: var(--secondary);
+      font-style: italic;
     }
     
     .examples {
@@ -217,6 +247,24 @@
       background: var(--error);
     }
     
+    .copy-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.3s ease;
+    }
+    
+    .copy-btn:hover {
+      background: var(--primary-dark);
+    }
+    
     footer {
       text-align: center;
       margin-top: 30px;
@@ -261,7 +309,19 @@
       <p>Generating your marketing content... This may take a moment</p>
     </div>
     
-    <div id="result"></div>
+    <div class="result-container">
+      <div class="result-header">
+        <div class="result-title">
+          <span>📋</span> Generated Content
+        </div>
+        <button class="copy-btn" id="copyBtn">
+          <span>📄</span> Copy Content
+        </button>
+      </div>
+      <div id="result">
+        <p class="result-placeholder">Your generated content will appear here after you click the "Generate Content" button.</p>
+      </div>
+    </div>
 
     <div class="examples">
       <h3><span>💡</span> Example Prompts:</h3>
@@ -288,6 +348,7 @@
     const loadingEl = document.getElementById('loading');
     const resultEl = document.getElementById('result');
     const notificationEl = document.getElementById('notification');
+    const copyBtn = document.getElementById('copyBtn');
 
     function setGoal(text) {
       goalInput.value = text;
@@ -314,17 +375,17 @@
       };
       
       // Find which example this is closest to
-      let responseText = "Here's your marketing content:\n\n";
+      let responseText = "";
       if (goal.toLowerCase().includes('coffee')) {
-        responseText += responses['coffee shop'];
+        responseText = responses['coffee shop'];
       } else if (goal.toLowerCase().includes('digital') || goal.toLowerCase().includes('blog')) {
-        responseText += responses['digital marketing'];
+        responseText = responses['digital marketing'];
       } else if (goal.toLowerCase().includes('sale') || goal.toLowerCase().includes('discount')) {
-        responseText += responses['summer sale'];
+        responseText = responses['summer sale'];
       } else if (goal.toLowerCase().includes('seo') || goal.toLowerCase().includes('brief')) {
-        responseText += responses['SEO brief'];
+        responseText = responses['SEO brief'];
       } else {
-        responseText += `I've created marketing content based on your request: "${goal}"\n\n`;
+        responseText = `I've created marketing content based on your request: "${goal}"\n\n`;
         responseText += "This would typically include:\n";
         responseText += "- Engaging headline/hook\n- Key message points\n- Call to action\n- Relevant hashtags/links\n";
         responseText += "\nFor more tailored content, please try one of our example prompts or provide more specific details.";
@@ -335,7 +396,6 @@
 
     async function generateContent() {
       const goal = goalInput.value.trim();
-      resultEl.style.display = 'none';
 
       if (!goal) {
         showNotification('Please enter a content goal first', 'error');
@@ -360,38 +420,52 @@
         }
 
         if (response.ok) {
-          resultEl.textContent = data.result || 'Content generated successfully!';
-          resultEl.style.display = 'block';
+          resultEl.innerHTML = `<div class="success-content">${data.result || 'Content generated successfully!'}</div>`;
           showNotification('Content generated successfully!', 'success');
         } else {
           // If the API fails, use simulated response
           console.warn('API not available, using simulated response');
-          resultEl.textContent = simulateAPIResponse(goal);
-          resultEl.style.display = 'block';
+          resultEl.innerHTML = simulateAPIResponse(goal);
           showNotification('Demo mode: Simulated content generated', 'success');
         }
       } catch (err) {
         // If there's a network error, use simulated response
         console.error('API call failed:', err);
-        resultEl.textContent = simulateAPIResponse(goal);
-        resultEl.style.display = 'block';
+        resultEl.innerHTML = simulateAPIResponse(goal);
         showNotification('Demo mode: Simulated content generated', 'success');
       } finally {
         loadingEl.style.display = 'none';
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        // Scroll to the result section
+        document.querySelector('.result-container').scrollIntoView({ behavior: 'smooth' });
       }
     }
 
     function clearContent() {
       goalInput.value = '';
-      resultEl.textContent = '';
-      resultEl.style.display = 'none';
+      resultEl.innerHTML = '<p class="result-placeholder">Your generated content will appear here after you click the "Generate Content" button.</p>';
       goalInput.focus();
+    }
+
+    function copyToClipboard() {
+      if (resultEl.textContent.includes('Your generated content will appear here')) {
+        showNotification('No content to copy', 'error');
+        return;
+      }
+      
+      navigator.clipboard.writeText(resultEl.textContent)
+        .then(() => {
+          showNotification('Content copied to clipboard!', 'success');
+        })
+        .catch(err => {
+          showNotification('Failed to copy content', 'error');
+          console.error('Failed to copy: ', err);
+        });
     }
 
     // Event listeners
     generateBtn.addEventListener('click', generateContent);
     clearBtn.addEventListener('click', clearContent);
+    copyBtn.addEventListener('click', copyToClipboard);
     
     // Ctrl+Enter shortcut
     goalInput.addEventListener('keydown', function (e) {
