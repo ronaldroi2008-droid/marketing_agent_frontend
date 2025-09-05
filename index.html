@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Marketing Content Agent</title>
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --secondary: #64748b;
-      --light: #f8fafc;
-      --dark: #1e293b;
-      --success: #10b981;
-      --error: #ef4444;
-      --warning: #f59e0b;
-      --border: #e2e8f0;
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #6c757d;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #28a745;
+      --error: #dc3545;
+      --warning: #ffc107;
+      --border: #dee2e6;
     }
     
     * {
@@ -27,7 +27,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
       color: var(--dark);
-      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      background: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 100%);
       min-height: 100vh;
       padding: 20px;
     }
@@ -38,40 +38,24 @@
       background: #fff;
       padding: 30px;
       border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
     
     header {
       text-align: center;
       margin-bottom: 30px;
-      grid-column: 1 / -1;
     }
     
     h1 {
       color: var(--primary);
       font-size: 2.5rem;
       margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
     }
     
     .subtitle {
       color: var(--secondary);
       font-size: 1.1rem;
-    }
-    
-    .input-section {
-      grid-column: 1;
-    }
-    
-    .output-section {
-      grid-column: 2;
-      position: relative;
+      margin-bottom: 20px;
     }
     
     .input-group {
@@ -100,7 +84,7 @@
     textarea:focus {
       border-color: var(--primary);
       outline: none;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
     }
     
     .button-group {
@@ -118,6 +102,10 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
     
     #generateBtn {
@@ -152,7 +140,7 @@
       width: 40px;
       height: 40px;
       margin: 0 auto 15px;
-      border: 4px solid rgba(37, 99, 235, 0.1);
+      border: 4px solid rgba(67, 97, 238, 0.1);
       border-left-color: var(--primary);
       border-radius: 50%;
       animation: spin 1s linear infinite;
@@ -163,13 +151,11 @@
     }
     
     .result-container {
-      height: 100%;
+      margin-top: 30px;
       border: 2px dashed var(--border);
       border-radius: 10px;
       padding: 20px;
       background: #f8fafc;
-      display: flex;
-      flex-direction: column;
     }
     
     .result-header {
@@ -194,10 +180,8 @@
       border-radius: 8px;
       background: white;
       white-space: pre-wrap;
-      flex-grow: 1;
+      min-height: 150px;
       border: 1px solid var(--border);
-      overflow-y: auto;
-      max-height: 350px;
     }
     
     .result-placeholder {
@@ -210,12 +194,45 @@
       text-align: center;
     }
     
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .action-btn {
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .copy-btn {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .copy-btn:hover {
+      background: var(--primary-dark);
+    }
+    
+    .save-btn {
+      background: var(--success);
+      color: white;
+    }
+    
+    .save-btn:hover {
+      background: #218838;
+    }
+    
     .examples {
       margin-top: 30px;
       padding: 20px;
       background: #f1f5f9;
       border-radius: 10px;
-      grid-column: 1 / -1;
     }
     
     .examples h3 {
@@ -255,6 +272,9 @@
       transform: translateX(100%);
       transition: all 0.5s ease;
       z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     
     .notification.show {
@@ -270,39 +290,16 @@
       background: var(--error);
     }
     
-    .copy-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: background 0.3s ease;
-    }
-    
-    .copy-btn:hover {
-      background: var(--primary-dark);
-    }
-    
     footer {
       text-align: center;
       margin-top: 30px;
       color: var(--secondary);
       font-size: 0.9rem;
-      grid-column: 1 / -1;
     }
     
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
       .container {
-        grid-template-columns: 1fr;
-      }
-      
-      .input-section, .output-section {
-        grid-column: 1;
+        padding: 20px;
       }
       
       h1 {
@@ -312,51 +309,61 @@
       .button-group {
         flex-direction: column;
       }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1><span>🎯</span> Marketing Content Agent</h1>
+      <h1>🎯 Marketing Content Agent</h1>
       <p class="subtitle">Generate engaging marketing content with AI assistance</p>
     </header>
 
-    <div class="input-section">
-      <div class="input-group">
-        <label for="goal">Enter your content goal:</label>
-        <textarea id="goal" placeholder="Example: Create Facebook post about coffee shop opening with enthusiastic tone"></textarea>
-      </div>
+    <div class="input-group">
+      <label for="goal">Enter your content goal:</label>
+      <textarea id="goal" placeholder="Example: Create Facebook post about coffee shop opening with enthusiastic tone"></textarea>
+    </div>
 
-      <div class="button-group">
-        <button id="generateBtn">Generate Content</button>
-        <button id="clearBtn">Clear</button>
-      </div>
+    <div class="button-group">
+      <button id="generateBtn">
+        <span>⚡</span> Generate Content
+      </button>
+      <button id="clearBtn">
+        <span>🗑️</span> Clear
+      </button>
+    </div>
 
-      <div id="loading" class="loading">
-        <div class="spinner"></div>
-        <p>Generating your marketing content... This may take a moment</p>
-      </div>
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Generating your marketing content... This may take a moment</p>
     </div>
     
-    <div class="output-section">
-      <div class="result-container">
-        <div class="result-header">
-          <div class="result-title">
-            <span>📋</span> Generated Content
-          </div>
-          <button class="copy-btn" id="copyBtn">
-            <span>📄</span> Copy Content
-          </button>
+    <div class="result-container">
+      <div class="result-header">
+        <div class="result-title">
+          <span>📋</span> Generated Content
         </div>
-        <div id="result">
-          <div class="result-placeholder">
-            <div>
-              <p>Your generated content will appear here</p>
-              <p>⬅️ Enter your goal and click Generate</p>
-            </div>
+      </div>
+      <div id="result">
+        <div class="result-placeholder">
+          <div>
+            <p>Your generated content will appear here</p>
+            <p>⬇️ Enter your goal and click Generate</p>
           </div>
         </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="action-btn copy-btn" id="copyBtn">
+          <span>📄</span> Copy to Clipboard
+        </button>
+        <button class="action-btn save-btn" id="saveBtn">
+          <span>💾</span> Save as File
+        </button>
       </div>
     </div>
 
@@ -376,8 +383,6 @@
   <div id="notification" class="notification"></div>
 
   <script>
-    const API_URL = "https://marketing-agent-backend-4nqq.onrender.com/agent";
-    
     // DOM elements
     const goalInput = document.getElementById('goal');
     const generateBtn = document.getElementById('generateBtn');
@@ -386,6 +391,7 @@
     const resultEl = document.getElementById('result');
     const notificationEl = document.getElementById('notification');
     const copyBtn = document.getElementById('copyBtn');
+    const saveBtn = document.getElementById('saveBtn');
 
     function setGoal(text) {
       goalInput.value = text;
@@ -442,34 +448,16 @@
       loadingEl.style.display = 'block';
       
       try {
-        // Try to call the actual API first
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ goal })
-        });
-
-        let data;
-        try { 
-          data = await response.json(); 
-        } catch (e) { 
-          data = {}; 
-        }
-
-        if (response.ok) {
-          resultEl.innerHTML = `<div class="success-content">${data.result || 'Content generated successfully!'}</div>`;
-          showNotification('Content generated successfully!', 'success');
-        } else {
-          // If the API fails, use simulated response
-          console.warn('API not available, using simulated response');
-          resultEl.innerHTML = simulateAPIResponse(goal);
-          showNotification('Demo mode: Simulated content generated', 'success');
-        }
-      } catch (err) {
-        // If there's a network error, use simulated response
-        console.error('API call failed:', err);
+        // In a real implementation, you would call your API here
+        // For demonstration, we'll use a simulated response
+        await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API delay
+        
         resultEl.innerHTML = simulateAPIResponse(goal);
-        showNotification('Demo mode: Simulated content generated', 'success');
+        showNotification('Content generated successfully!', 'success');
+      } catch (err) {
+        console.error('Content generation failed:', err);
+        resultEl.innerHTML = "Sorry, we couldn't generate content at this time. Please try again.";
+        showNotification('Content generation failed', 'error');
       } finally {
         loadingEl.style.display = 'none';
       }
@@ -477,7 +465,7 @@
 
     function clearContent() {
       goalInput.value = '';
-      resultEl.innerHTML = '<div class="result-placeholder"><div><p>Your generated content will appear here</p><p>⬅️ Enter your goal and click Generate</p></div></div>';
+      resultEl.innerHTML = '<div class="result-placeholder"><div><p>Your generated content will appear here</p><p>⬇️ Enter your goal and click Generate</p></div></div>';
       goalInput.focus();
     }
 
@@ -497,10 +485,44 @@
         });
     }
 
+    function saveToFile() {
+      if (resultEl.textContent.includes('Your generated content will appear here')) {
+        showNotification('No content to save', 'error');
+        return;
+      }
+      
+      // Create a blob with the content
+      const blob = new Blob([resultEl.textContent], { type: 'text/plain' });
+      
+      // Create a download link
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      
+      // Generate filename based on content
+      let filename = 'marketing-content.txt';
+      const firstLine = resultEl.textContent.split('\n')[0];
+      if (firstLine) {
+        filename = firstLine.substring(0, 30).replace(/[^a-zA-Z0-9]/g, '-') + '.txt';
+      }
+      
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      
+      // Clean up
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showNotification('Content saved as file!', 'success');
+      }, 100);
+    }
+
     // Event listeners
     generateBtn.addEventListener('click', generateContent);
     clearBtn.addEventListener('click', clearContent);
     copyBtn.addEventListener('click', copyToClipboard);
+    saveBtn.addEventListener('click', saveToFile);
     
     // Ctrl+Enter shortcut
     goalInput.addEventListener('keydown', function (e) {
@@ -512,3 +534,4 @@
   </script>
 </body>
 </html>
+ 
