@@ -33,17 +33,21 @@
     }
     
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       background: #fff;
       padding: 30px;
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
     }
     
     header {
       text-align: center;
       margin-bottom: 30px;
+      grid-column: 1 / -1;
     }
     
     h1 {
@@ -59,6 +63,15 @@
     .subtitle {
       color: var(--secondary);
       font-size: 1.1rem;
+    }
+    
+    .input-section {
+      grid-column: 1;
+    }
+    
+    .output-section {
+      grid-column: 2;
+      position: relative;
     }
     
     .input-group {
@@ -150,11 +163,13 @@
     }
     
     .result-container {
-      margin-top: 30px;
+      height: 100%;
       border: 2px dashed var(--border);
       border-radius: 10px;
       padding: 20px;
       background: #f8fafc;
+      display: flex;
+      flex-direction: column;
     }
     
     .result-header {
@@ -179,13 +194,20 @@
       border-radius: 8px;
       background: white;
       white-space: pre-wrap;
-      min-height: 150px;
+      flex-grow: 1;
       border: 1px solid var(--border);
+      overflow-y: auto;
+      max-height: 350px;
     }
     
     .result-placeholder {
       color: var(--secondary);
       font-style: italic;
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
     
     .examples {
@@ -193,6 +215,7 @@
       padding: 20px;
       background: #f1f5f9;
       border-radius: 10px;
+      grid-column: 1 / -1;
     }
     
     .examples h3 {
@@ -270,11 +293,16 @@
       margin-top: 30px;
       color: var(--secondary);
       font-size: 0.9rem;
+      grid-column: 1 / -1;
     }
     
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .container {
-        padding: 20px;
+        grid-template-columns: 1fr;
+      }
+      
+      .input-section, .output-section {
+        grid-column: 1;
       }
       
       h1 {
@@ -294,32 +322,41 @@
       <p class="subtitle">Generate engaging marketing content with AI assistance</p>
     </header>
 
-    <div class="input-group">
-      <label for="goal">Enter your content goal:</label>
-      <textarea id="goal" placeholder="Example: Create Facebook post about coffee shop opening with enthusiastic tone"></textarea>
-    </div>
+    <div class="input-section">
+      <div class="input-group">
+        <label for="goal">Enter your content goal:</label>
+        <textarea id="goal" placeholder="Example: Create Facebook post about coffee shop opening with enthusiastic tone"></textarea>
+      </div>
 
-    <div class="button-group">
-      <button id="generateBtn">Generate Content</button>
-      <button id="clearBtn">Clear</button>
-    </div>
+      <div class="button-group">
+        <button id="generateBtn">Generate Content</button>
+        <button id="clearBtn">Clear</button>
+      </div>
 
-    <div id="loading" class="loading">
-      <div class="spinner"></div>
-      <p>Generating your marketing content... This may take a moment</p>
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Generating your marketing content... This may take a moment</p>
+      </div>
     </div>
     
-    <div class="result-container">
-      <div class="result-header">
-        <div class="result-title">
-          <span>📋</span> Generated Content
+    <div class="output-section">
+      <div class="result-container">
+        <div class="result-header">
+          <div class="result-title">
+            <span>📋</span> Generated Content
+          </div>
+          <button class="copy-btn" id="copyBtn">
+            <span>📄</span> Copy Content
+          </button>
         </div>
-        <button class="copy-btn" id="copyBtn">
-          <span>📄</span> Copy Content
-        </button>
-      </div>
-      <div id="result">
-        <p class="result-placeholder">Your generated content will appear here after you click the "Generate Content" button.</p>
+        <div id="result">
+          <div class="result-placeholder">
+            <div>
+              <p>Your generated content will appear here</p>
+              <p>⬅️ Enter your goal and click Generate</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -435,14 +472,12 @@
         showNotification('Demo mode: Simulated content generated', 'success');
       } finally {
         loadingEl.style.display = 'none';
-        // Scroll to the result section
-        document.querySelector('.result-container').scrollIntoView({ behavior: 'smooth' });
       }
     }
 
     function clearContent() {
       goalInput.value = '';
-      resultEl.innerHTML = '<p class="result-placeholder">Your generated content will appear here after you click the "Generate Content" button.</p>';
+      resultEl.innerHTML = '<div class="result-placeholder"><div><p>Your generated content will appear here</p><p>⬅️ Enter your goal and click Generate</p></div></div>';
       goalInput.focus();
     }
 
